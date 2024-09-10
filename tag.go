@@ -7,15 +7,24 @@ const (
 	TagS = "-s"
 )
 
-var SupportedTags = map[string]func([]fs.DirEntry) error{
+type HandleTag func([]ItemStat, int)(string,error)
+
+
+var SupportedTags = map[string]HandleTag{
 	TagA: handleTagA,
 	TagS: handleTagS,
 }
 
-func handleTagA([]fs.DirEntry) error {
-	return nil
+func handleTagA(items []ItemStat, width int) (string , error) {
+	return res string
+
+  for i , v := range items {
+
+  }
+
+
 }
 
-func handleTagS([]fs.DirEntry) error {
+func handleTagS(items []ItemStat, width int) error {
 	return nil
 }

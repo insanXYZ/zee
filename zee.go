@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"fmt"
+	"fs"
 	"io/fs"
 	"os"
 	"strings"
@@ -13,7 +14,7 @@ import (
 type ZeeConfig struct {
 	termwidth int
 	path      string
-	handleTag func([]fs.DirEntry) error
+	handleTag HandleTag
 }
 
 type ItemStat struct {
@@ -66,5 +67,24 @@ func readAndParseDir(config *ZeeConfig) (string, error) {
 		return "", nil
 	}
 
-	return "", nil
+	var ItemStats []ItemStat
+
+	for _, v := range dir {
+		info, err := v.Info()
+		if err != nil {
+			return "", nil
+		}
+
+		s := createStringItem(info)
+		ItemStats = append(ItemStats, ItemStat{
+			val:    s,
+			length: len(s),
+		})
+	}
+
+	return config.handleTag(ItemStats, config.termwidth)
+}
+
+func createStringItem(s fs.FileInfo) string {
+	return ""
 }
