@@ -1,30 +1,45 @@
 package main
 
-import "io/fs"
-
-const (
-	TagA = "-a"
-	TagS = "-s"
+import (
+	"fmt"
+	"strconv"
 )
 
-type HandleTag func([]ItemStat, int)(string,error)
+const (
+	TagA  = "-a"
+	TagL  = "-l"
+	space = " "
+)
 
+type HandleTag func([]ItemStat, int) (string, error)
 
 var SupportedTags = map[string]HandleTag{
 	TagA: handleTagA,
-	TagS: handleTagS,
+	TagL: handleTagL,
 }
 
-func handleTagA(items []ItemStat, width int) (string , error) {
-	return res string
-
-  for i , v := range items {
-
-  }
-
-
+func handleTagA(items []ItemStat, width int) (string, error) {
+	var res string
+	return res, nil
 }
 
-func handleTagS(items []ItemStat, width int) error {
-	return nil
+func handleTagL(items []ItemStat, _ int) (string, error) {
+	var res string
+	var maxWidthSize int
+
+	for _, v := range items {
+		l := len(strconv.Itoa(int(v.FileInfo.Size())))
+		if maxWidthSize < l {
+			maxWidthSize = l
+		}
+	}
+
+	for _, v := range items {
+
+		size := fmt.Sprintf("%-*s", maxWidthSize, strconv.Itoa(int(v.FileInfo.Size())))
+
+		res += fmt.Sprint(v.FileInfo.Mode(), space, size, space, v.val, "\n")
+	}
+
+	return res, nil
 }
