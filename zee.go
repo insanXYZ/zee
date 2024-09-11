@@ -83,7 +83,7 @@ func readAndParseDir(config *ZeeConfig) (string, error) {
 		})
 	}
 
-	return config.handleTag(ItemStats, config.termwidth)
+	return config.handleTag(&ItemStats, config.termwidth)
 }
 
 func createStringItem(info fs.FileInfo) string {
@@ -97,5 +97,5 @@ func createStringItem(info fs.FileInfo) string {
 		icon = Type["text"]
 	}
 
-	return fmt.Sprint(icon, space, info.Name())
+	return fmt.Sprint(icon, spc, info.Name())
 }
