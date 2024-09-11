@@ -1,5 +1,6 @@
-# ![Screenshot_2024-09-11-10-01-17_1920x1080](https://github.com/user-attachments/assets/ef228487-07cb-4a94-9025-7af05bb67044)
-Zee
+![Screenshot_2024-09-11-10-01-17_1920x1080](https://github.com/user-attachments/assets/ef228487-07cb-4a94-9025-7af05bb67044)
+
+# Zee
 
 ## Installation
 You can visit to [releases page](https://github.com/insanXYZ/zee/releases), select the latest version and download it depending on your operating system.\
