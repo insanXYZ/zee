@@ -2,6 +2,9 @@
 
 # Zee
 
+## Requirements
+It is highly recommended to use the font [JetBrainsMono nerd font](https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/JetBrainsMono.zip) from [nerd font](https://www.nerdfonts.com/)
+
 ## Installation
 You can visit to [releases page](https://github.com/insanXYZ/zee/releases), select the latest version and download it depending on your operating system.\
 After that you can save it in a place where you can execute it, such as in an environment variable, for example you can save it in one of $PATH directory if you are using Linux OS.
