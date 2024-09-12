@@ -91,7 +91,7 @@ func createStringItem(info fs.FileInfo) string {
 
 	if info.IsDir() {
 		icon = Type["dir"]
-	} else if v, ok := Type[strings.Split(info.Name(), ".")[len(strings.Split(info.Name(), "."))-1]]; ok {
+	} else if v, ok := Type[strings.ToLower(strings.Split(info.Name(), ".")[len(strings.Split(info.Name(), "."))-1])]; ok {
 		icon = v
 	} else {
 		icon = Type["text"]
