@@ -6,13 +6,6 @@ import (
 	"strconv"
 )
 
-const (
-	TagA = "-a"
-	TagL = "-l"
-	spc  = " "
-	spc2 = "  "
-)
-
 type HandleTag func(*[]ItemStat, int) (string, error)
 
 var SupportedTags = map[string]HandleTag{
@@ -20,6 +13,13 @@ var SupportedTags = map[string]HandleTag{
 	TagL: handleTagL,
 }
 
+// function for handle -a tag, or without tag
+// for example =
+// ```
+// > zee -a
+// or
+// > zee
+// ```
 func handleTagA(items *[]ItemStat, width int) (string, error) {
 	var res string
 
@@ -83,6 +83,11 @@ func sumSlices[T int | float32 | float64](i []T) T {
 	return res
 }
 
+// function for handle -l tag
+// for example =
+// ```
+// > zee -l
+// ```
 func handleTagL(items *[]ItemStat, _ int) (string, error) {
 	var maxWidthSize int
 
@@ -97,10 +102,26 @@ func handleTagL(items *[]ItemStat, _ int) (string, error) {
 
 	for _, v := range *items {
 
-		size := fmt.Sprintf("%-*s", maxWidthSize, strconv.Itoa(int(v.FileInfo.Size())))
+		size := fmt.Sprintf("%-*s", maxWidthSize, createSizeString(int(v.FileInfo.Size())))
 
 		res += fmt.Sprint(v.FileInfo.Mode(), spc2, size, spc2, v.val, "\n")
 	}
 
 	return res, nil
+}
+
+func createSizeString(size int) string {
+	var nameSizeUnit string
+	s := strconv.Itoa(size)
+	l := len(s)
+	switch {
+	case l >= 8:
+		nameSizeUnit = "MB"
+	case l >= 4:
+		nameSizeUnit = "KB"
+	default:
+		nameSizeUnit = "Bytes"
+	}
+
+	return s + nameSizeUnit
 }

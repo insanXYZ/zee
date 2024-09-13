@@ -1,5 +1,9 @@
 package main
 
+const (
+	BIN = "application/octet-stream"
+)
+
 var Type = map[string]string{
 	"svelte":       "\ue697",
 	"d":            "\ue651",
@@ -82,4 +86,5 @@ var Type = map[string]string{
 	"json":         "\ue60b",
 	"webpack":      "\ue6a3",
 	"dir":          "\ue613",
+	"bin":          "\uf471",
 }

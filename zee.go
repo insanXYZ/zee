@@ -1,13 +1,26 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	"io/fs"
+	"net/http"
 	"os"
 	"strings"
 
 	"golang.org/x/crypto/ssh/terminal"
+)
+
+const (
+	// tag
+	TagA = "-a"
+	TagL = "-l"
+
+	// space
+	spc  = " "
+	spc2 = "  "
+
+	// content-type
+	BIN = "application/octet-stream"
 )
 
 type ZeeConfig struct {
@@ -42,7 +55,7 @@ func main() {
 				if f, ok := SupportedTags[v]; ok {
 					config.handleTag = f
 				} else {
-					throwError(errors.New(fmt.Sprintf("undefined tag %v", v)))
+					throwError(fmt.Errorf("undefined tag %v", v))
 				}
 			} else {
 				config.path = v
@@ -93,9 +106,10 @@ func createStringItem(info fs.FileInfo) string {
 		icon = Type["dir"]
 	} else if v, ok := Type[strings.ToLower(strings.Split(info.Name(), ".")[len(strings.Split(info.Name(), "."))-1])]; ok {
 		icon = v
+	} else if b, err := os.ReadFile(info.Name()); err != nil && http.DetectContentType(b) == BIN {
+		icon = Type["bin"]
 	} else {
 		icon = Type["text"]
 	}
-
 	return fmt.Sprint(icon, spc, info.Name())
 }
