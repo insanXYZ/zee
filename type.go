@@ -82,5 +82,5 @@ var Type = map[string]string{
 	"json":         "\ue60b",
 	"webpack":      "\ue6a3",
 	"dir":          "\ue613",
-	"bin":          "\uf471",
+	"bin":          "\ueae8",
 }

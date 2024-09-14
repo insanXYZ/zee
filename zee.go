@@ -105,8 +105,11 @@ func createStringItem(info fs.FileInfo) string {
 		icon = Type["dir"]
 	} else if v, ok := Type[strings.ToLower(strings.Split(info.Name(), ".")[len(strings.Split(info.Name(), "."))-1])]; ok {
 		icon = v
+	} else if info.Mode().IsRegular() && info.Mode()&0o111 != 0 {
+		icon = Type["bin"]
 	} else {
 		icon = Type["text"]
 	}
+
 	return fmt.Sprint(icon, spc, info.Name())
 }
