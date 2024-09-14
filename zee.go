@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"io/fs"
-	"net/http"
 	"os"
 	"strings"
 
@@ -106,8 +105,6 @@ func createStringItem(info fs.FileInfo) string {
 		icon = Type["dir"]
 	} else if v, ok := Type[strings.ToLower(strings.Split(info.Name(), ".")[len(strings.Split(info.Name(), "."))-1])]; ok {
 		icon = v
-	} else if b, err := os.ReadFile(info.Name()); err != nil && http.DetectContentType(b) == BIN {
-		icon = Type["bin"]
 	} else {
 		icon = Type["text"]
 	}

@@ -1,9 +1,5 @@
 package main
 
-const (
-	BIN = "application/octet-stream"
-)
-
 var Type = map[string]string{
 	"svelte":       "\ue697",
 	"d":            "\ue651",

@@ -89,39 +89,72 @@ func sumSlices[T int | float32 | float64](i []T) T {
 // > zee -l
 // ```
 func handleTagL(items *[]ItemStat, _ int) (string, error) {
-	var maxWidthSize int
-
 	res := fmt.Sprint("total: ", len(*items), "\n\n")
 
-	for _, v := range *items {
-		l := len(strconv.Itoa(int(v.FileInfo.Size())))
-		if maxWidthSize < l {
-			maxWidthSize = l
-		}
-	}
+	widthSize, unitDataSize := createMaxWidthSizeAndUnitDataWidth(items)
 
 	for _, v := range *items {
 
-		size := fmt.Sprintf("%-*s", maxWidthSize, createSizeString(int(v.FileInfo.Size())))
+		size, unitData := createSizeString(int(v.Size()))
 
-		res += fmt.Sprint(v.FileInfo.Mode(), spc2, size, spc2, v.val, "\n")
+		sizeString := fmt.Sprintf("%*s", widthSize, size)
+		unitDataString := fmt.Sprintf("%-*s", unitDataSize, unitData)
+
+		res += fmt.Sprint(v.FileInfo.Mode(), spc2, sizeString, spc, unitDataString, spc2, v.val, "\n")
 	}
 
 	return res, nil
 }
 
-func createSizeString(size int) string {
-	var nameSizeUnit string
-	s := strconv.Itoa(size)
-	l := len(s)
-	switch {
-	case l >= 8:
-		nameSizeUnit = "MB"
-	case l >= 4:
-		nameSizeUnit = "KB"
-	default:
-		nameSizeUnit = "Bytes"
+func createMaxWidthSizeAndUnitDataWidth(items *[]ItemStat) (int, int) {
+	var maxWidthSize, unitDataWidth int
+	for _, v := range *items {
+
+		s := strconv.Itoa(int(v.Size()))
+		l := len(s)
+
+		if l >= 7 || l >= 4 {
+			unitDataWidth = 2
+			if l >= 7 {
+				r := len(strconv.Itoa(int(v.Size() / 1000000)))
+				if maxWidthSize < r {
+					maxWidthSize = r
+				}
+			} else if l >= 4 {
+				r := len(strconv.Itoa(int(v.Size() / 1000)))
+				if maxWidthSize < r {
+					maxWidthSize = r
+				}
+			}
+		} else {
+			if unitDataWidth < l {
+				unitDataWidth = 1
+			}
+			if maxWidthSize < l {
+				maxWidthSize = l
+			}
+		}
+
 	}
 
-	return s + nameSizeUnit
+	return maxWidthSize, unitDataWidth
+}
+
+func createSizeString(size int) (string, string) {
+	var s string
+	var u string
+	l := len(strconv.Itoa(size))
+
+	if l >= 7 {
+		s = strconv.Itoa(size / 1000000)
+		u = "MB"
+	} else if l >= 4 {
+		s = strconv.Itoa(size / 1000)
+		u = "KB"
+	} else {
+		s = strconv.Itoa(size)
+		u = "B"
+	}
+
+	return s, u
 }
