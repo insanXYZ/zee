@@ -19,5 +19,5 @@ zee (optional tag: -a or -l)
 | Tag     | Description                             |
 |:--------|:----------------------------------------|
 | -a    | show directory without attribute (this a default tag)             |
-| -l     | show directory with attribute like permission and size(on bytes)            |
+| -l     | show directory with attribute like permission and size|
 
