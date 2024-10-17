@@ -24,12 +24,16 @@ func handleTagA(items *[]ItemStat, width int) (string, error) {
 	var res string
 
 	rows, layout := createLayout(items, width)
-
 	for i := 0; i < rows; i++ {
 		for j, v := range layout {
 			fi := j * rows
 			li := fi + rows
-			res += fmt.Sprintf("%-*s", v, (*items)[fi:li][i].val)
+			if li > len(*items) {
+				li = fi + (li - len(*items))
+			}
+			if len((*items)[fi:li]) > i {
+				res += fmt.Sprintf("%-*s", v, (*items)[fi:li][i].val)
+			}
 			if j == len(layout)-1 {
 				res += "\n"
 			}
