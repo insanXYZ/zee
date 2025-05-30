@@ -1,5 +1,6 @@
 package main
 
+// https://www.nerdfonts.com/cheat-sheet
 var Type = map[string]string{
 	"svelte":       "\ue697",
 	"d":            "\ue651",
