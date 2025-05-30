@@ -24,13 +24,16 @@ func handleTagA(items *[]ItemStat, width int) (string, error) {
 	var res string
 
 	rows, layout := createLayout(items, width)
-	for i := 0; i < rows; i++ {
+
+	for i := range rows {
 		for j, v := range layout {
 			fi := j * rows
 			li := fi + rows
+
 			if li > len(*items) {
-				li = fi + (li - len(*items))
+				li = len(*items)
 			}
+
 			if len((*items)[fi:li]) > i {
 				res += fmt.Sprintf("%-*s", v, (*items)[fi:li][i].val)
 			}
@@ -50,7 +53,7 @@ func createLayout(items *[]ItemStat, width int) (int, []int) {
 		layout = []int{}
 
 		cond := int(math.Ceil(float64(len(*items)) / float64(rows)))
-		for j := 0; j < cond; j++ {
+		for j := range cond {
 			var max int
 
 			fi := j * rows
