@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"golang.org/x/crypto/ssh/terminal"
+	"golang.org/x/term"
 )
 
 const (
@@ -37,7 +37,7 @@ type ItemStat struct {
 var args = os.Args
 
 func main() {
-	w, _, err := terminal.GetSize(0)
+	w, _, err := term.GetSize(int(os.Stdin.Fd()))
 	if err != nil {
 		panic(err.Error())
 	}
